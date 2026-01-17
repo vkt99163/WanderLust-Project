@@ -24,6 +24,7 @@ const LocalStrategy= require("passport-local");
 const User= require("./models/user.js");
 
 
+
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate");
 
@@ -39,15 +40,6 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const dbUrl= process.env.ATLASDB_URL;
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use((req, res, next) => {
-  res.locals.currUser = req.user;   
-  next();
-});
-
 
 
 main()
@@ -78,7 +70,7 @@ const sessionOptions= {
     store,
     secret:process.env.SECR,
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
     cookie:{
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -99,9 +91,9 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req,res,next)=>{
+    res.locals.currUser=req.user
     res.locals.success= req.flash("success")
      res.locals.error= req.flash("error")
-     res.locals.currUser=req.user
     next();
 })
 
