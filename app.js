@@ -68,7 +68,7 @@ store.on("error",(err)=>{
 
 const sessionOptions= {
     store,
-    secret:process.env.SECR,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:false,
     cookie:{
