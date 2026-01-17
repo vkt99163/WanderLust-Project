@@ -40,6 +40,15 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 const dbUrl= process.env.ATLASDB_URL;
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.currUser = req.user;   
+  next();
+});
+
+
 
 main()
     .then(() => {
@@ -96,15 +105,7 @@ app.use((req,res,next)=>{
     next();
 })
 
-// app.get("/demouser", async(req,res)=>{
-//     let fakeuser=  new User({
-//         email:"vt95154@gmail.com",
-//         username:"Sigma-Student",
-//     })
 
-// let registeredUser=await User.register(fakeuser, "helloWorld")
-// res.send(registeredUser)
-// });
 
 
 
