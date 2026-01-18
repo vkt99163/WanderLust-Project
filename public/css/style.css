@@ -144,6 +144,15 @@ body {
     max-width: 100%;
 }
 
+.listing-actions-clean {
+  margin-top: 1rem;
+}
+
+.listing-actions-clean .btn {
+  width: fit-content;   /* button natural size */
+}
+
+
 @media (max-width: 768px) {
 
   .navbar {
