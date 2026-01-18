@@ -6,8 +6,24 @@ const geocodingClint= mbxGeocoding({accessToken:mapToken})
 const { cloudinary } = require("../cloudConfig.js");
 
 module.exports.index=async (req, res) => {
-    let allListings = await Listing.find({})
-    res.render("listings/index.ejs", { allListings });
+
+   let allListings;
+
+  if (req.query.search) {
+    const searchQuery = req.query.search;
+
+    allListings = await Listing.find({
+      $or: [
+        { title: { $regex: searchQuery, $options: "i" } },
+        { location: { $regex: searchQuery, $options: "i" } },
+        { country: { $regex: searchQuery, $options: "i" } },
+      ],
+    });
+  } else {
+    allListings = await Listing.find({});
+  }
+
+  res.render("listings/index.ejs", { allListings });
 }
 
 //NEW FORM :
